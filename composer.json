@@ -1,0 +1,19 @@
+{
+	"name": "markguinn/silverstripe-ecommerce_related_products",
+	"description": "Submodule for Silverstripe Ecommerce which allows you to specify related products for any Buyable.",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe", "ecommerce"],
+	"license": "MIT",
+	"authors": [{
+		"name": "Mark Guinn",
+		"email": "mark@adaircreative.com",
+		"homepage": "http://github.com/markguinn"
+	}],
+	"extra": {
+		"installer-name": "ecommerce_related_products"
+	},
+	"require": {
+		"silverstripe/framework": ">=3.0",
+		"silverstripe/ecommerce": ">=3.0"
+	}
+}
