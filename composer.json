@@ -14,6 +14,6 @@
 	},
 	"require": {
 		"silverstripe/framework": ">=3.0",
-		"silverstripe/ecommerce": ">=3.0"
+		"sunnysideup/ecommerce": ">=3.0"
 	}
 }

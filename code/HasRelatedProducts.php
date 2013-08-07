@@ -33,9 +33,9 @@ class HasRelatedProducts extends DataExtension
 	 */
 	public function getRelatedProducts($limit=5) {
 		// first look up all the objects they clicked on
-		$ids = explode(',', $this->RelatedIDs);
+		$ids = explode(',', $this->getOwner()->RelatedIDs);
 		if (count($ids) == 0) return null;
-		$objects = SiteTree::get()->byIDs(ids);
+		$objects = SiteTree::get()->byIDs($ids);
 
 		// then expand any categories into a big list
 		$items = array();
@@ -52,8 +52,9 @@ class HasRelatedProducts extends DataExtension
 
 		// sort randomly
 		$total = count($items);
+		$out = new ArrayList();
+
 		if ($total > 0) {
-			$out = new ArrayList();
 			$limit = min($total, $limit);
 			for ($i = 0; $i < $limit; $i++) {
 				$out->push($items[rand(0, $total-1)]);
