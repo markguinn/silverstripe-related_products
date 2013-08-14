@@ -17,6 +17,6 @@
 	},
 	"suggest": {
 		"sunnysideup/ecommerce": ">=3.0",
-		"burnbright/silverstripe-shop": "0.9"
+		"burnbright/silverstripe-shop": ">=0.9"
 	}
 }
