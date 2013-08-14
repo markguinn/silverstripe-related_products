@@ -7,7 +7,7 @@
  *
  * @author Mark Guinn <mark@adaircreative.com>
  * @date 08.06.2013
- * @package ecommerce_related_products
+ * @package related_products
  */
 class HasRelatedProducts extends DataExtension
 {
@@ -40,7 +40,7 @@ class HasRelatedProducts extends DataExtension
 		// then expand any categories into a big list
 		$items = array();
 		foreach ($objects as $obj) {
-			if ($obj instanceof ProductGroup) {
+			if ((class_exists('ProductCategory') && $obj instanceof ProductCategory) || (class_exists('ProductGroup') && $obj instanceof ProductGroup)) {
 				$prods = $obj->ProductsShowable();
 				foreach ($prods as $prod) {
 					$items[] = $prod;
@@ -86,8 +86,15 @@ class HasRelatedProducts_TreeField extends TreeMultiselectField
 	public function __construct($name, $title=null, $sourceObject="SiteTree", $keyField="ID", $labelField="Title") {
 		parent::__construct($name, $title, $sourceObject, $keyField, $labelField);
 
-		$buyables = EcommerceConfig::get("EcommerceDBConfig", "array_of_buyables");
-		$types = array('$obj instanceof ProductGroup');
+		$buyables = class_exists('EcommerceConfig')
+			? EcommerceConfig::get("EcommerceDBConfig", "array_of_buyables")
+			: SS_ClassLoader::instance()->getManifest()->getImplementorsOf('Buyable');
+
+		$types = array(
+			'(class_exists("ProductCategory") && $obj instanceof ProductCategory)',
+			'(class_exists("ProductGroup") && $obj instanceof ProductGroup)'
+		);
+
 		if($buyables && is_array($buyables) && count($buyables)) {
 			foreach ($buyables as $type) {
 				$types[] = '$obj instanceof ' . $type;

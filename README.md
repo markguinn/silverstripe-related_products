@@ -1,11 +1,12 @@
-Related Projects Submodule for Silverstripe Ecommerce
-=====================================================
+Related Projects Submodule for Silverstripe Shop/Ecommerce
+==========================================================
 
-Allows you to specify related products for any Buyable.
+Allows you to specify related products for any Buyable. This submodule
+is compatible with both Shop and Ecommerce modules.
 
 USAGE:
 ------
-Install module via composer (markguinn/silverstripe-ecommerce_related_products)
+Install module via composer (markguinn/silverstripe-related_products)
 or the old-fashioned way. Then add the following to mysite/_config/config.yml:
 
 ```
@@ -15,8 +16,17 @@ Product:
 ```
 
 Duplicate or modify the above to apply to any other buyable
-models you're using. Then add the following to the 
+models you're using. Then add the following to the template:
 
+ ```
+ <% include RelatedProducts %>
+ ```
+
+INSTALL FOLDER:
+---------------
+Default install folder is related_products. If you would like install
+to ecommerce_related_products use dev-ecommerce and likewise for
+shop_related_products use dev-shop.
 
 TODO:
 -----
@@ -26,6 +36,8 @@ TODO:
 DEVELOPERS:
 -----------
 * Mark Guinn - mark@adaircreative.com
+
+Pull requests welcome.
 
 LICENSE (MIT):
 --------------
