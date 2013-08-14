@@ -10,13 +10,10 @@
 		"homepage": "http://github.com/markguinn"
 	}],
 	"extra": {
-		"installer-name": "related_products"
+		"installer-name": "ecommerce_related_products"
 	},
 	"require": {
-		"silverstripe/framework": ">=3.0"
-	},
-	"suggest": {
-		"sunnysideup/ecommerce": ">=3.0",
-		"burnbright/silverstripe-shop": "0.9"
+		"silverstripe/framework": ">=3.0",
+		"sunnysideup/ecommerce": ">=3.0"
 	}
 }
