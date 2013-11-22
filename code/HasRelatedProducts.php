@@ -33,8 +33,12 @@ class HasRelatedProducts extends DataExtension
 	 */
 	public function getRelatedProducts($limit=5) {
 		// first look up all the objects they clicked on
-		$ids = explode(',', $this->getOwner()->RelatedIDs);
-		if (count($ids) == 0) return null;
+		$ids = explode(',', trim($this->getOwner()->RelatedIDs));
+		if (count($ids) == 0 || empty($ids[0])) {
+			if ($this->getOwner()->hasMethod('generateRelatedProducts')) return $this->getOwner()->generateRelatedProducts($limit);
+			return null;
+		}
+
 		$objects = SiteTree::get()->byIDs($ids);
 
 		// then expand any categories into a big list
