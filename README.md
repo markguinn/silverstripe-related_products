@@ -1,8 +1,7 @@
-Related Projects Submodule for Silverstripe Shop/Ecommerce
-==========================================================
+Related Projects Submodule for Silverstripe Shop
+================================================
 
-Allows you to specify related products for any Buyable. This submodule
-is compatible with both Shop and Ecommerce modules.
+Allows you to specify related products for any Buyable.
 
 USAGE:
 ------
@@ -13,7 +12,7 @@ Duplicate or modify the following to apply to any other buyable
 models you're using.
 
 ```
-[buyable class]:
+BuyableClass:
   extensions:
     - HasRelatedProducts
 ```
