@@ -1,0 +1,7 @@
+---
+Name: relatedproducts
+After: 'framework/*','cms/*'
+---
+Product:
+  extensions:
+    - HasRelatedProducts
