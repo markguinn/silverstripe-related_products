@@ -32,36 +32,14 @@ class HasRelatedProducts extends DataExtension
 	 * @return ArrayList
 	 */
 	public function getRelatedProducts($limit=5) {
-		// first look up all the objects they clicked on
-		$ids = explode(',', $this->getOwner()->RelatedIDs);
-		if (count($ids) == 0) return null;
-		$objects = SiteTree::get()->byIDs($ids);
-
-		// then expand any categories into a big list
-		$items = array();
-		foreach ($objects as $obj) {
-			if ((class_exists('ProductCategory') && $obj instanceof ProductCategory) || (class_exists('ProductGroup') && $obj instanceof ProductGroup)) {
-				$prods = $obj->ProductsShowable();
-				foreach ($prods as $prod) {
-					$items[] = $prod;
-				}
-			} else {
-				$items[] = $obj;
-			}
-		}
-
-		// sort randomly
-		$total = count($items);
-		$out = new ArrayList();
-
-		if ($total > 0) {
-			$limit = min($total, $limit);
-			for ($i = 0; $i < $limit; $i++) {
-				$out->push($items[rand(0, $total-1)]);
-			}
-		}
-
-		return $out;
+		$ids = explode(',', $this->owner->RelatedIDs);
+		return Product::get()
+			->filterAny(array(
+				"ID" => $ids,
+				"ParentID" => $ids
+			))
+			->limit($limit)
+			->sort("RAND()");
 	}
 
 	/**
