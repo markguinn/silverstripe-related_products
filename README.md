@@ -7,16 +7,18 @@ is compatible with both Shop and Ecommerce modules.
 USAGE:
 ------
 Install module via composer (markguinn/silverstripe-related_products)
-or the old-fashioned way. Then add the following to mysite/_config/config.yml:
+or the old-fashioned way.
+
+Duplicate or modify the following to apply to any other buyable
+models you're using.
 
 ```
-Product:
+[buyable class]:
   extensions:
     - HasRelatedProducts
 ```
 
-Duplicate or modify the above to apply to any other buyable
-models you're using. Then add the following to the template:
+Add the following to your `Product.ss` template:
 
  ```
  <% include RelatedProducts %>
@@ -27,6 +29,8 @@ INSTALL FOLDER:
 Default install folder is related_products. If you would like install
 to ecommerce_related_products use dev-ecommerce and likewise for
 shop_related_products use dev-shop.
+
+Run dev/build?flush=1 to update your database.
 
 TODO:
 -----
