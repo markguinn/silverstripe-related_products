@@ -9,11 +9,16 @@
  * @date 08.06.2013
  * @package related_products
  */
-class HasRelatedProducts extends DataExtension
-{
+class HasRelatedProducts extends DataExtension {
 
-	public static $many_many = array(
+	private static $many_many = array(
 		'RelatedProductsRelation' => 'Product'
+	);
+
+	private static $many_many_extraFields = array(
+		'RelatedProductsRelation' => array(
+			'Order' => 'Int'
+		)
 	);
 
 	/**
@@ -21,10 +26,11 @@ class HasRelatedProducts extends DataExtension
 	 */
 	public function updateCMSFields(FieldList $fields) {
 		$fields->addFieldsToTab('Root.Related', array(
-			GridField::create("RelatedProductsRelation", "Related Products", $this->owner->RelatedProductsRelation(),
+			GridField::create("RelatedProductsRelation", "Related Products", $this->owner->RelatedProductsRelation()->sort('Order ASC'),
 				GridFieldConfig_RelationEditor::create()
 					->removeComponentsByType("GridFieldAddNewButton")
 					->removeComponentsByType("GridFieldEditButton")
+					->addComponent(new GridFieldOrderableRows('Order'))
 			)
 		));
 	}
@@ -33,30 +39,27 @@ class HasRelatedProducts extends DataExtension
 	 * @param int $limit
 	 * @return DataList
 	 */
-	public function getRelatedProducts($limit=5) {
+	public function getRelatedProducts($limit = 5, $random = true) {
 		$ids = explode(',', $this->owner->RelatedIDs);
 		$filters = array(
 			"ID" => $this->owner->RelatedProductsRelation()->getIDList()
 		);
-		if(Product::config()->related_categories){
+
+		if(Product::config()->related_categories) {
 			$filters["ParentID"] = $this->owner->ProductCategories()->getIDList();
 			$filters["ParentID"][] = $this->owner->ParentID;
 			//TODO: include sub-categories of the chosen categories
 				//will result in many queries if there is a lot of nesting
 		}
 
-		return Product::get()
+		$products = Product::get()
 			->filterAny($filters)
-			->limit($limit)
-			->sort("RAND()");
-	}
+			->limit($limit);
 
-	/**
-	* @param int $limit
-	* @return ArrayList
-	*/
-	public function RelatedProducts($limit=5) {
-	    return $this->getRelatedProducts($limit);
-	}
+		if($random) {
+			$products = $products->sort("RAND()");
+		}
 
+		return $products;
+	}
 }
