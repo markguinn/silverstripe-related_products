@@ -17,7 +17,8 @@ class HasRelatedProducts extends DataExtension {
 
 	private static $many_many_extraFields = array(
 		'RelatedProductsRelation' => array(
-			'Order' => 'Int'
+			'Order' => 'Int',
+			'RelatedTitle' => 'Varchar'
 		)
 	);
 
@@ -26,12 +27,19 @@ class HasRelatedProducts extends DataExtension {
 	 */
 	public function updateCMSFields(FieldList $fields) {
 		$fields->addFieldsToTab('Root.Related', array(
-			GridField::create("RelatedProductsRelation", "Related Products", $this->owner->RelatedProductsRelation()->sort('Order ASC'),
+			$grid = GridField::create("RelatedProductsRelation", "Related Products", $this->owner->RelatedProductsRelation()->sort('Order ASC'),
 				GridFieldConfig_RelationEditor::create()
 					->removeComponentsByType("GridFieldAddNewButton")
 					->removeComponentsByType("GridFieldEditButton")
 					->addComponent(new GridFieldOrderableRows('Order'))
+					->addComponent(new GridFieldEditableColumns())
 			)
+		));
+
+		$grid->getConfig()->getComponentByType('GridFieldEditableColumns')->setDisplayFields(array(
+			'RelatedTitle'  => function($record, $column, $grid) {
+				return new TextField($column);
+			}
 		));
 	}
 
