@@ -44,28 +44,27 @@ class HasRelatedProducts extends DataExtension {
 	}
 
 	/**
-	 * @param int $limit
-	 * @return DataList
+	 * Cleanup
 	 */
-	public function getRelatedProducts($limit = 5, $random = true) {
-		$ids = explode(',', $this->owner->RelatedIDs);
-		$filters = array(
-			"ID" => $this->owner->RelatedProductsRelation()->getIDList()
-		);
+	public function onBeforeDelete() {
+		$this->owner->RelatedProductsRelation()->removeAll();
+	}
 
-		if(Product::config()->related_categories) {
-			$filters["ParentID"] = $this->owner->ProductCategories()->getIDList();
-			$filters["ParentID"][] = $this->owner->ParentID;
-			//TODO: include sub-categories of the chosen categories
-				//will result in many queries if there is a lot of nesting
-		}
-
-		$products = Product::get()
-			->filterAny($filters)
-			->limit($limit);
+	/**
+	 * @param int $limit
+	 * @param bool $random
+	 *
+	 * @return ManyManyList
+	 */
+	public function getRelatedProducts($limit = null, $random = false) {
+		$products = $this->owner->RelatedProductsRelation();
 
 		if($random) {
 			$products = $products->sort("RAND()");
+		}
+
+		if($limit) {
+			$products = $products->limit($limit);
 		}
 
 		return $products;
