@@ -27,7 +27,7 @@ class HasRelatedProducts extends DataExtension {
 	 */
 	public function updateCMSFields(FieldList $fields) {
 		$fields->addFieldsToTab('Root.Related', array(
-			$grid = GridField::create("RelatedProductsRelation", "Related Products", $this->owner->RelatedProductsRelation()->sort('Order ASC'),
+			$grid = GridField::create("RelatedProductsRelation", "Related Products", $this->owner->RelatedProductsRelation()->sort('Order','ASC'),
 				GridFieldConfig_RelationEditor::create()
 					->removeComponentsByType("GridFieldAddNewButton")
 					->removeComponentsByType("GridFieldEditButton")
