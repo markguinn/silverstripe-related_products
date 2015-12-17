@@ -18,7 +18,8 @@ class HasGeneratedRelatedProducts extends DataExtension
     /**
      * @param ManyManyList $products
      */
-    public function updateRelatedProducts(&$products, $limit, $random) {
+    public function updateRelatedProducts(&$products, $limit, $random)
+    {
         $curCount = $products->count();
         if ($curCount < $limit) {
             $cfg = Config::inst()->forClass(get_class($this->owner));
@@ -26,8 +27,12 @@ class HasGeneratedRelatedProducts extends DataExtension
 
             // look up the fields
             $fields = $cfg->get('related_products_fields');
-            if (empty($fields)) return;
-            if (!is_array($fields)) $fields = array($fields);
+            if (empty($fields)) {
+                return;
+            }
+            if (!is_array($fields)) {
+                $fields = array($fields);
+            }
 
             // create a filter from the fields
             $filter = array();
@@ -50,4 +55,4 @@ class HasGeneratedRelatedProducts extends DataExtension
             }
         }
     }
-} 
+}
